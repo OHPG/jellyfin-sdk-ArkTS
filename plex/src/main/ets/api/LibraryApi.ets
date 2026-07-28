@@ -12,6 +12,7 @@ export interface LibraryGetChildrenRequest {
 export interface LibraryGetItemsParams {
   'X-Plex-Container-Start'?: number
   'X-Plex-Container-Size'?: number
+  'sort'?: string
 }
 
 export interface LibraryRecentlyAddedParams {
@@ -28,11 +29,12 @@ export class LibraryApi extends Api {
     return this.apiClient.get({ path: "/library/sections" })
   }
 
-  public async getItems(sectionKey: string, start?: number, size?: number): Promise<PlexResponse> {
+  public async getItems(sectionKey: string, start?: number, size?: number, sort?: string): Promise<PlexResponse> {
     this.assertParam(sectionKey)
     let params: LibraryGetItemsParams = {
       'X-Plex-Container-Start': start,
-      'X-Plex-Container-Size': size
+      'X-Plex-Container-Size': size,
+      'sort': sort
     }
     return this.apiClient.get({
       path: `/library/sections/${sectionKey}/all`,
